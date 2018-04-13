@@ -26,3 +26,24 @@ bool TestEnum::test_setNameBadChars(){
 
     return TEST_STREQUALS( "_FOO_", e.getName() );
 }
+
+bool TestEnum::test_addSingleValue(){
+    cppgenerate::Enum e;
+
+    e.addEnumValue( "foobar", 5 );
+
+    std::map<std::string, int> values = e.getEnumNameToValues();
+
+    return TEST_EQUALS( values["foobar"], 5 );
+}
+
+bool TestEnum::test_addMultipleValues(){
+    cppgenerate::Enum e;
+
+    e.addEnumValue( "what", 6 );
+    e.addEnumValue( "stoop" );
+
+    std::map<std::string, int> values = e.getEnumNameToValues();
+
+    return TEST_EQUALS( values["stoop"], 7 );
+}

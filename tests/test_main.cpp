@@ -10,6 +10,8 @@ static void initialize_test_map(){
     tests[ "enum_setName" ] = &TestEnum::test_setName;
     tests[ "enum_setNameWithSpaces" ] = &TestEnum::test_setNameWithSpaces;
     tests[ "enum_setNameBadChars" ] = &TestEnum::test_setNameBadChars;
+    tests[ "enum_addSingleValue" ] = &TestEnum::test_addSingleValue;
+    tests[ "enum_addMultipleValues" ] = &TestEnum::test_addMultipleValues;
 }
 
 int main( int argc, char** argv ){

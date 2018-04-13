@@ -22,6 +22,8 @@ set( TEST_NAMES
   enum_setName
   enum_setNameWithSpaces
   enum_setNameBadChars
+  enum_addSingleValue
+  enum_addMultipleValues
 )
 
 foreach( test_name ${TEST_NAMES} )

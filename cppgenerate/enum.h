@@ -52,14 +52,8 @@ class Enum{
     /**
      * Set the default value of the enum, if the conversion from
      * int/string fails.  If this is not set, the first value in the enum
-     * will be returned.
-     */
-    Enum& setDefaultValue( std::string name, int value );
-
-    /**
-     * Set the default value of the enum, if the conversion from
-     * int/string fails.  If this is not set, the first value in the enum
-     * will be returned.
+     * will be returned.  Note: The value must have been previously added
+     * via a call to addEnumValue, otherwise this method will fail.
      */
     Enum& setDefaultValue( std::string name );
 
@@ -79,12 +73,26 @@ class Enum{
      */
     Enum& setNamespace( std::string namespaceName );
 
-    std::string getName();
+    /**
+     * Get the name of this enum.  The name will have been sanitized.
+     */
+    const std::string getName() const;
+
+    /**
+     * Get the map of all of the enum names to the integer value
+     */
+    const std::map<std::string, int> getEnumNameToValues() const;
 
   private:
     std::string m_name;
     bool m_isEnumClass;
     std::map<std::string, int> m_enumNameToValue;
+    bool m_generateFromValue;
+    bool m_generateFromString;
+    std::string m_defaultValue;
+    bool m_generateToInt;
+    bool m_generateToString;
+    std::string m_namespace;
 };
 
 }

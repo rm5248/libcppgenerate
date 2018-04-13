@@ -6,6 +6,8 @@ public:
     static bool test_setName();
     static bool test_setNameWithSpaces();
     static bool test_setNameBadChars();
+    static bool test_addSingleValue();
+    static bool test_addMultipleValues();
 };
 
 #endif /* TEST_ENUM_H */
