@@ -100,6 +100,8 @@ class Class{
      */
     Class& setIsQObject( const bool isQObject );
 
+    static Class create();
+
 private:
     std::string m_className;
     std::string m_namespace;

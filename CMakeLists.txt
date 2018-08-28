@@ -5,7 +5,7 @@
 #
 cmake_minimum_required( VERSION 3.1 )
 
-project( libcppgenerate )
+project( libcppgenerate VERSION 0.1)
 
 # We require at least C++11
 set( CMAKE_CXX_STANDARD 11 )
@@ -23,6 +23,7 @@ set( CPPGENERATE_VERSION ${CPPGENERATE_MAJOR}.${CPPGENERATE_MINOR}.${CPPGENERATE
 # All options that we have to compile
 #
 option( ENABLE_TESTS "Enable the unit tests" OFF )
+option( ENABLE_EXAMPLES "Enable the examples" OFF )
 
 #
 # Sources
@@ -126,6 +127,13 @@ if( ENABLE_TESTS )
     enable_testing()
     add_subdirectory( tests )
 endif( ENABLE_TESTS )
+
+#
+# Enable examples, if specified
+#
+if( ENABLE_EXAMPLES )
+    add_subdirectory( examples/cpp_class )
+endif( ENABLE_EXAMPLES )
 
 message( "CMake command ${CMAKE_COMMAND}" )
 message( "CMake generator ${CMAKE_GENERATOR}" )

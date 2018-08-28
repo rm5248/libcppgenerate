@@ -124,3 +124,7 @@ Class& Class::setIsQObject( const bool isQObject ){
 
     return *this;
 }
+
+Class Class::create(){
+    return Class();
+}
