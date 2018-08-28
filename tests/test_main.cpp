@@ -1,5 +1,6 @@
 #include <map>
 #include <iostream>
+#include <apr_general.h>
 
 #include "testinterface.h"
 #include "tests/test_enum.h"
@@ -12,6 +13,7 @@ static void initialize_test_map(){
     tests[ "enum_setNameBadChars" ] = &TestEnum::test_setNameBadChars;
     tests[ "enum_addSingleValue" ] = &TestEnum::test_addSingleValue;
     tests[ "enum_addMultipleValues" ] = &TestEnum::test_addMultipleValues;
+    tests[ "enum_generate1" ] = &TestEnum::test_generate1;
 }
 
 int main( int argc, char** argv ){
@@ -19,10 +21,11 @@ int main( int argc, char** argv ){
     //just enough to tell us which test to run.
     std::string cmakeCommand;
     std::string cmakeGeneratorType;
+    std::string cmakeCurrentBinaryDir;
     std::string testToRun;
 
-    if( argc != 4 ){
-        std::cerr << "Need at least 4 args to run test" << std::endl;
+    if( argc != 5 ){
+        std::cerr << "Need at least 5 args to run test" << std::endl;
         return 1;
     }
 
@@ -32,8 +35,13 @@ int main( int argc, char** argv ){
 
     cmakeCommand = std::string( argv[ 1 ] );
     cmakeGeneratorType = std::string( argv[ 2 ] );
-    testToRun = std::string( argv[ 3 ] );
+    cmakeCurrentBinaryDir = std::string( argv[ 3 ] );
+    testToRun = std::string( argv[ 4 ] );
+    setCMakeCommand( cmakeCommand );
+    setCMakeGenerator( cmakeGeneratorType );
+    setCMakeBinaryDir( cmakeCurrentBinaryDir );
 
+    apr_initialize();
     initialize_test_map();
 
     TestMethod methodToTest = nullptr;
@@ -46,5 +54,7 @@ int main( int argc, char** argv ){
 
     methodToTest = (*it).second;
 
-    return !methodToTest();
+    int ret = !methodToTest();
+    apr_terminate();
+    return ret;
 }

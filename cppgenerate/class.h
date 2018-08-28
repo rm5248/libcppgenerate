@@ -4,6 +4,7 @@
 
 #include <string>
 #include <vector>
+#include <set>
 
 #include "method.h"
 #include "membervariable.h"
@@ -98,7 +99,17 @@ class Class{
      * runs properly.
      */
     Class& setIsQObject( const bool isQObject );
-}
+
+private:
+    std::string m_className;
+    std::string m_namespace;
+    std::set<std::string> m_systemIncludes;
+    std::set<std::string> m_localIncludes;
+    std::vector<Method> m_methods;
+    std::vector<MemberVariable> m_memberVariables;
+    std::string m_documentation;
+    bool m_isQobject;
+};
 
 }
 

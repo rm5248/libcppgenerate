@@ -21,6 +21,8 @@ class MemberVariable : public Variable {
 
     ~MemberVariable();
 
+    MemberVariable( const MemberVariable& other );
+
     MemberVariable& operator=( const MemberVariable& other );
 
     MemberVariable& setAccessModifier( AccessModifier modifier );
@@ -42,6 +44,15 @@ class MemberVariable : public Variable {
      * a signal will not be emitted when the value is changed.
      */
     MemberVariable& setChangedSignalName( std::string signalName );
+
+    static MemberVariable create();
+
+  private:
+    AccessModifier m_access;
+    bool m_generateSetter;
+    bool m_generateGetter;
+    bool m_isQProperty;
+    std::string m_changedSignalName;
 };
 
 }

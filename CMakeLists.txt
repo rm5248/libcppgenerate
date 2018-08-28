@@ -61,14 +61,14 @@ IF( UNIX )
              RUNTIME DESTINATION bin
              LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
              ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}" )
-    install( FILES ${C_SERIAL_HEADERS} DESTINATION include/cppgenerate )
+    install( FILES ${CPPGENERATE_HEADERS} DESTINATION include/cppgenerate )
 ENDIF( UNIX )
 IF( WIN32 )
     install( TARGETS ${install_targets}
              RUNTIME DESTINATION bin
              LIBRARY DESTINATION lib
              ARCHIVE DESTINATION lib )
-    install( FILES ${C_SERIAL_HEADERS} DESTINATION include/cppgenerate )
+    install( FILES ${CPPGENERATE_HEADERS} DESTINATION include/cppgenerate )
 ENDIF( WIN32 )
 
 IF( UNIX )

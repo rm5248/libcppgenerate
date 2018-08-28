@@ -12,6 +12,8 @@ class Variable{
   public:
     Variable();
 
+    Variable( const Variable& other );
+
     virtual ~Variable();
 
     Variable& operator=( const Variable& other );
@@ -22,6 +24,12 @@ class Variable{
 
     Variable& setName( std::string name );
 
+    static Variable create();
+
+  private:
+    std::string m_type;
+    std::string m_name;
+    std::string m_initializer;
 };
 
 }

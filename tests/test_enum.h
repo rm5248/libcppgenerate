@@ -8,6 +8,9 @@ public:
     static bool test_setNameBadChars();
     static bool test_addSingleValue();
     static bool test_addMultipleValues();
+
+    //Generator tests
+    static bool test_generate1();
 };
 
 #endif /* TEST_ENUM_H */
