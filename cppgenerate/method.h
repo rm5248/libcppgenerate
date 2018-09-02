@@ -6,6 +6,7 @@
 #define CPPGENERATE_METHOD_H
 
 #include <string>
+#include <list>
 
 namespace cppgenerate{
 
@@ -16,10 +17,7 @@ class Method{
   public:
     Method();
 
-    /**
-     * Create a method with the specified name.
-    */
-    Method( std::string name );
+    Method( const Method& other );
 
     ~Method();
 
@@ -35,6 +33,33 @@ class Method{
      * Set the name of this method
      */
     Method& setName( std::string name );
+
+    Method& setReturnType( std::string returnType );
+
+    /**
+     * Add an argument with the specified type and name
+     */
+    Method& addArgument( std::string argumentType, std::string argumentName );
+
+    Method& setDocumentation( std::string documentation );
+
+    /**
+     * Print the method signature to the specified stream
+     */
+    void printSignature( std::ostream& stream ) const;
+
+    /**
+     * Print the method implementation to the specified stream
+     */
+    void printImplementation( std::ostream& stream ) const;
+
+    static Method create();
+
+  private:
+    std::string m_name;
+    std::string m_returnType;
+    std::string m_documentation;
+    std::list<std::pair<std::string,std::string> > m_arguments;
 };
 
 }

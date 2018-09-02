@@ -14,6 +14,10 @@
 
 namespace cppgenerate{
 
+/**
+ * A cppgenerate::Class contains information about the
+ * class that is to be created. 
+ */
 class Class{
   public:
     Class();
@@ -100,7 +104,22 @@ class Class{
      */
     Class& setIsQObject( const bool isQObject );
 
+    /**
+     * Print this class to the output stream specified.  The header
+     * is always printed before the class functions, so that they can
+     * be in the same file.
+     *
+     * @param header The output stream to write the header to
+     * @param implementation The output stream to write the
+     * implementation to
+     */
+    void print( std::ostream& header, std::ostream& implementation ) const;
+
     static Class create();
+
+private:
+    void printHeader( std::ostream& header ) const;
+    void printImplementation( std::ostream& implementation ) const;
 
 private:
     std::string m_className;

@@ -2,6 +2,7 @@
 #include "cppgenerateutils.h"
 
 #include <algorithm>
+#include <ostream>
 
 using cppgenerate::Class;
 
@@ -24,6 +25,9 @@ Class::Class( const Class& other ) :
     m_documentation( other.m_documentation ),
     m_isQobject( other.m_isQobject )
 {}
+
+Class::~Class(){
+}
 
 Class& Class::operator=( const Class& other ){
     if( this != &other ){
@@ -127,4 +131,48 @@ Class& Class::setIsQObject( const bool isQObject ){
 
 Class Class::create(){
     return Class();
+}
+
+void Class::print( std::ostream& header, std::ostream& implementation ) const {
+    printHeader( header );
+    //printImplementation( implementation );
+}
+
+void Class::printHeader( std::ostream& output ) const{
+    for( std::string include : m_systemIncludes ){
+        output << "#include <" << include << ">" << std::endl;
+    }
+
+    for( std::string include : m_localIncludes ){
+        output << "#include \"" << include << "\"" << std::endl;
+    }
+
+    if( m_namespace.size() > 1 ){
+        output << m_namespace << " {" << std::endl;
+    }
+
+    output << m_documentation << std::endl;
+    output << "class " << m_className << " {" << std::endl;
+
+    if( m_isQobject ){
+        output << "    Q_OBJECT" << std::endl;
+    }
+
+    for( cppgenerate::Method method :  m_methods ){
+        output << "    ";
+        method.printSignature( output );
+    }
+
+    for( cppgenerate::MemberVariable variable : m_memberVariables ){
+        output << "    ";
+    }
+
+    output << "};" << std::endl;
+
+    if( m_namespace.size() > 1 ){
+        output << "} /* namespace " << m_namespace << " */" << std::endl;
+    }
+}
+
+void Class::printImplementation( std::ostream& implementation ) const{
 }

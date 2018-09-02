@@ -1,4 +1,4 @@
-find_package(PkgConfig)
+#find_package(PkgConfig)
 
-pkg_check_modules(cppgenerate REQUIRED)
+#pkg_check_modules(cppgenerate REQUIRED)
 
