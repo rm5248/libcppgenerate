@@ -1,5 +1,6 @@
 #include "class.h"
 #include "cppgenerateutils.h"
+#include "codeblock.h"
 
 #include <algorithm>
 #include <ostream>
@@ -139,6 +140,8 @@ void Class::print( std::ostream& header, std::ostream& implementation ) const {
 }
 
 void Class::printHeader( std::ostream& output ) const{
+    cppgenerate::CodeBlock block;
+
     for( std::string include : m_systemIncludes ){
         output << "#include <" << include << ">" << std::endl;
     }
@@ -151,23 +154,26 @@ void Class::printHeader( std::ostream& output ) const{
         output << m_namespace << " {" << std::endl;
     }
 
-    output << m_documentation << std::endl;
-    output << "class " << m_className << " {" << std::endl;
+    block.addLine( m_documentation );
+    block.addLine( "class " + m_className + " {" );
 
     if( m_isQobject ){
-        output << "    Q_OBJECT" << std::endl;
+        block.indent()
+            .addLine( "Q_OBJECT" )
+            .unindent();
     }
 
     for( cppgenerate::Method method :  m_methods ){
-        output << "    ";
-        method.printSignature( output );
+        method.printSignature( block.buffer() );
     }
 
     for( cppgenerate::MemberVariable variable : m_memberVariables ){
-        output << "    ";
+        //output << "    " << ;
     }
 
-    output << "};" << std::endl;
+    block.addLine( "};" );
+
+    block.print( output );
 
     if( m_namespace.size() > 1 ){
         output << "} /* namespace " << m_namespace << " */" << std::endl;

@@ -1,3 +1,5 @@
+#include <ostream>
+
 #include "membervariable.h"
 
 using cppgenerate::MemberVariable;
@@ -54,4 +56,9 @@ MemberVariable& MemberVariable::isQProperty( bool isQproperty ){
 MemberVariable& MemberVariable::setChangedSignalName( std::string signalName ){
     m_changedSignalName = signalName;
     return *this;
+}
+
+void MemberVariable::print( std::ostream& stream ){
+    switch( m_access ){
+    }
 }

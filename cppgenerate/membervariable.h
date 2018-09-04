@@ -47,6 +47,11 @@ class MemberVariable : public Variable {
 
     static MemberVariable create();
 
+    /**
+     * Print the member variable to the output stream
+     */
+    void print( std::ostream& stream );
+
   private:
     AccessModifier m_access;
     bool m_generateSetter;
