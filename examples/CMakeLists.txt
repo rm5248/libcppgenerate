@@ -2,6 +2,8 @@ set( EXAMPLES
     cpp_class1.cpp 
     cpp_class2.cpp
     cpp_class3.cpp
+    cpp_class4.cpp
+    cpp_inheritance.cpp
 )
 
 foreach( example ${EXAMPLES} )

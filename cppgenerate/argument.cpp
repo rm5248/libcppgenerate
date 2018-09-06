@@ -56,3 +56,7 @@ Argument& Argument::setPassType( ArgumentPassType passType ){
 
     return *this;
 }
+
+Argument Argument::create(){
+    return Argument();
+}

@@ -11,11 +11,11 @@ int main(int argc, char** argv){
 except to show how the library can generate\n\
 useful code for us with member variables" )
       .addMemberVariable( cppgenerate::MemberVariable::create()
-          .setAccessModifier( cppgenerate::MemberVariable::AccessModifier::ACCESS_PROTECTED )
+          .setAccessModifier( cppgenerate::AccessModifier::PROTECTED )
           .setType( "int" )
           .setName( "m_exampleInt" ) )
       .addMemberVariable( cppgenerate::MemberVariable::create()
-          .setAccessModifier( cppgenerate::MemberVariable::AccessModifier::ACCESS_PRIVATE )
+          .setAccessModifier( cppgenerate::AccessModifier::PRIVATE )
           .generateGetter( true )
           .generateSetter( true )
           .setType( "double" )

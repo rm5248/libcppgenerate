@@ -5,7 +5,7 @@
 using cppgenerate::MemberVariable;
 
 MemberVariable::MemberVariable() :
-    m_access( AccessModifier::ACCESS_PUBLIC ),
+    m_access( AccessModifier::PUBLIC ),
     m_generateGetter( false ),
     m_generateSetter( false ),
     m_isQProperty( false ){
@@ -76,13 +76,13 @@ void MemberVariable::print( cppgenerate::CodeBlock& block ) const {
     }
 
     switch( m_access ){
-        case AccessModifier::ACCESS_PUBLIC:
+        case AccessModifier::PUBLIC:
             block.addLine( "public:");
             break;
-        case AccessModifier::ACCESS_PRIVATE:
+        case AccessModifier::PRIVATE:
             block.addLine( "private:");
             break;
-        case AccessModifier::ACCESS_PROTECTED:
+        case AccessModifier::PROTECTED:
             block.addLine( "protected:");
             break;
     }

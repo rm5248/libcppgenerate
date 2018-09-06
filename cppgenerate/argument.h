@@ -61,6 +61,8 @@ class Argument{
         return stream;
     }
 
+    static Argument create();
+
   private:
     std::string m_type;
     std::string m_name;

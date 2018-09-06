@@ -3,6 +3,7 @@
 
 #include "variable.h"
 #include "codeblock.h"
+#include "accessmodifier.h"
 
 namespace cppgenerate{
 
@@ -12,12 +13,6 @@ namespace cppgenerate{
  */
 class MemberVariable : public Variable {
   public:
-    enum class AccessModifier{
-        ACCESS_PUBLIC,
-        ACCESS_PRIVATE,
-        ACCESS_PROTECTED
-    };
-
     MemberVariable();
 
     ~MemberVariable();

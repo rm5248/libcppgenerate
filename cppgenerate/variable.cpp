@@ -41,3 +41,11 @@ Variable& Variable::setName( std::string name ){
 Variable Variable::create(){
     return Variable();
 }
+
+std::string Variable::initializer(){
+    return m_initializer;
+}
+
+std::string Variable::name(){
+    return m_name;
+}

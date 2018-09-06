@@ -24,6 +24,8 @@ Class::Class( const Class& other ) :
     m_localIncludes( other.m_localIncludes ),
     m_methods( other.m_methods ),
     m_memberVariables( other.m_memberVariables ),
+    m_constructors( other.m_constructors ),
+    m_parents( other.m_parents ),
     m_documentation( other.m_documentation ),
     m_isQobject( other.m_isQobject )
 {}
@@ -44,6 +46,10 @@ Class& Class::operator=( const Class& other ){
         m_memberVariables.clear();
         m_documentation = other.m_documentation;
         m_isQobject = other.m_isQobject;
+        m_constructors.clear();
+        m_constructors = other.m_constructors;
+        m_parents.clear();
+        m_parents = other.m_parents;
     }
 
     return *this;
@@ -139,6 +145,7 @@ Class& Class::setDocumentation( const std::string documentation ){
 Class& Class::setIsQObject( const bool isQObject ){
     if( isQObject ){
         addSystemInclude( "QObject" );
+        addParentClass( "QObject", cppgenerate::AccessModifier::PUBLIC );
     }
 
     m_isQobject = isQObject;
@@ -175,12 +182,38 @@ void Class::printHeader( std::ostream& output ) const{
             .addLine( m_documentation )
             .addLine( "*/" );
     }
-    block.addLine( "class " + m_className + " {" );
+    block.addLine( "class " + m_className );
+
+    if( m_parents.size() > 0 ){
+        bool comma = false;
+        block.buffer() << " : ";
+        for( Parent parent : m_parents ){
+            if( comma ) block.buffer() << ", ";
+            switch( parent.inheritanceType ){
+            case cppgenerate::AccessModifier::PUBLIC:
+                block.buffer() << "public ";
+                break;
+            case cppgenerate::AccessModifier::PROTECTED:
+                block.buffer() << "protected ";
+                break;
+            default:
+                break;
+            }
+            block.buffer() << parent.parentName << " ";
+            comma = true;
+        }
+    }
+
+    block.buffer() << "{" << std::endl;
 
     if( m_isQobject ){
         block.indent()
             .addLine( "Q_OBJECT" )
             .unindent();
+    }
+
+    for( cppgenerate::Constructor constructor : m_constructors ){
+        constructor.printSignature( this, block.buffer() );
     }
 
     for( cppgenerate::Method method :  m_methods ){
@@ -201,7 +234,31 @@ void Class::printHeader( std::ostream& output ) const{
 }
 
 void Class::printImplementation( std::ostream& implementation ) const{
+    for( cppgenerate::Constructor constructor : m_constructors ){
+        constructor.printImplementation( this, implementation );
+    }
+
     for( cppgenerate::Method method :  m_methods ){
         method.printImplementation( this, implementation );
     }
+}
+
+Class& Class::addConstructor( const Constructor& constructor ){
+    m_constructors.push_back( constructor );
+
+    return *this;
+}
+
+Class& Class::addParentClass( std::string parentName, cppgenerate::AccessModifier inheritanceType, std::string initializer ){
+    Parent p;
+    p.parentName = parentName;
+    p.inheritanceType = inheritanceType;
+    p.initializer = initializer;
+    m_parents.push_back( p );
+
+    return *this;
+
+}
+
+void Class::print( std::ostream& output ) const{
 }

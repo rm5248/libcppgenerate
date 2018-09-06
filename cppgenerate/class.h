@@ -8,6 +8,7 @@
 #include "method.h"
 #include "membervariable.h"
 #include "constructor.h"
+#include "accessmodifier.h"
 
 namespace cppgenerate{
 
@@ -111,6 +112,16 @@ class Class{
     Class& setIsQObject( const bool isQObject );
 
     /**
+     * Add a constructor to this class
+     */
+    Class& addConstructor( const Constructor& constructor );
+
+    /**
+     * Add a parent class for inheritance
+     */
+    Class& addParentClass( std::string parentName, cppgenerate::AccessModifier inheritanceType, std::string initializer = "" );
+
+    /**
      * Print this class to the output stream specified.  The header
      * is always printed before the class functions, so that they can
      * be in the same file.
@@ -121,6 +132,13 @@ class Class{
      */
     void print( std::ostream& header, std::ostream& implementation ) const;
 
+    /**
+     * Print the class to the output stream.  Note that this will print
+     * the implementation as well, so this is suitable for making a
+     * header-only class
+     */
+    void print( std::ostream& output ) const;
+
     static Class create();
 
 private:
@@ -128,12 +146,22 @@ private:
     void printImplementation( std::ostream& implementation ) const;
 
 private:
+    friend class Constructor;
+
+    struct Parent{
+        std::string parentName;
+        cppgenerate::AccessModifier inheritanceType;
+        std::string initializer;
+    };
+
     std::string m_className;
     std::string m_namespace;
     std::set<std::string> m_systemIncludes;
     std::set<std::string> m_localIncludes;
     std::vector<Method> m_methods;
     std::vector<MemberVariable> m_memberVariables;
+    std::vector<Constructor> m_constructors;
+    std::vector<Parent> m_parents;
     std::string m_documentation;
     bool m_isQobject;
 };

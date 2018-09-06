@@ -24,6 +24,10 @@ class Variable{
 
     Variable& setName( std::string name );
 
+    std::string initializer();
+
+    std::string name();
+
     static Variable create();
 
   protected:

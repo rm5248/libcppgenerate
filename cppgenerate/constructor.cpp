@@ -58,7 +58,33 @@ void Constructor::printSignature( const cppgenerate::Class* parent, std::ostream
 }
 
 void Constructor::printImplementation( const cppgenerate::Class* parent, std::ostream& stream ) const{
+    bool comma = false;
+    std::vector<cppgenerate::MemberVariable> initializerVariables;
+
     printConstructorSignature( stream, parent->getName(), true );
+
+    for( cppgenerate::MemberVariable memberVar : parent->m_memberVariables ){
+        if( memberVar.initializer().size() ){
+            initializerVariables.push_back( memberVar );
+        }
+    }
+
+    if( initializerVariables.size() || parent->m_parents.size() ) stream << " : ";
+
+    for( cppgenerate::Class::Parent clparent : parent->m_parents ){
+        if( comma ) stream << "," << std::endl;
+        stream << clparent.parentName << "( ";
+        if( clparent.initializer.size() ) stream << clparent.initializer;
+        stream << " )";
+        comma = true;
+    }
+
+
+    for( cppgenerate::MemberVariable memberVar : initializerVariables ){
+        if( comma ) stream << ", ";
+        stream << memberVar.name() << "( " << memberVar.initializer() << " )" << std::endl;
+        comma = true;
+    }
 
     stream << "{" << std::endl;
 
@@ -86,4 +112,10 @@ void Constructor::printConstructorSignature( std::ostream& stream, std::string c
     }
 
     stream << " )";
+}
+
+Constructor& Constructor::setAccessModifier( cppgenerate::AccessModifier modifier ){
+    m_accessModifier = modifier;
+
+    return *this;
 }

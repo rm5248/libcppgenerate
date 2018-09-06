@@ -5,6 +5,7 @@
 
 #include "argument.h"
 #include "codeblock.h"
+#include "accessmodifier.h"
 
 namespace cppgenerate{
 
@@ -21,6 +22,8 @@ class Constructor {
     Constructor( const Constructor& other );
 
     Constructor& operator=( const Constructor& other );
+
+    Constructor& setAccessModifier( AccessModifier modifier );
 
     /**
      * Add an argument to the constructor
@@ -61,6 +64,7 @@ class Constructor {
     std::string m_documentation;
     std::list<Argument> m_arguments;
     CodeBlock m_code;
+    AccessModifier m_accessModifier;
 };
 
 } /* namespace cppgenerate */
