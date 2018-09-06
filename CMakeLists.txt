@@ -37,6 +37,8 @@ set( CPPGENERATE_SOURCES
   cppgenerate/codeblock.cpp
   cppgenerate/cppgenerateutils.cpp
   cppgenerate/printer.cpp
+  cppgenerate/argument.cpp
+  cppgenerate/constructor.cpp
 )
 set( CPPGENERATE_HEADERS
   cppgenerate/class.h
@@ -47,6 +49,8 @@ set( CPPGENERATE_HEADERS
   cppgenerate/codeblock.h
   cppgenerate/cppgenerateutils.h
   cppgenerate/printer.h
+  cppgenerate/argument.h
+  cppgenerate/constructor.h
 )
 
 #

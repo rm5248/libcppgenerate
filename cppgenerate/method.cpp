@@ -52,8 +52,8 @@ Method& Method::setReturnType( std::string returnType ){
     return *this;
 }
 
-Method& Method::addArgument( std::string argumentType, std::string argumentName ){
-    m_arguments.push_back( std::make_pair( argumentType, argumentName ) );
+Method& Method::addArgument( const Argument& arg ){
+    m_arguments.push_back( arg );
     
     return *this;
 }
@@ -77,43 +77,23 @@ Method& Method::setCode( const CodeBlock& block ){
 }
 
 void Method::printSignature( std::ostream& stream ) const {
-    bool addComma = false;
-
     if( !isValid() ) return;
 
     if( m_documentation.length() > 1 ){
         stream << "/** " << m_documentation << " */" << std::endl;
     }
-    stream << m_returnType << " " << m_name << "(";
 
-    for( std::pair<std::string, std::string> argument : m_arguments ){
-        if( addComma ) stream << ", ";
-        stream << argument.first << " " << argument.second;
-        addComma = true;
-    }
+    printMethodSignature( stream, "" );
 
-    stream << ");" << std::endl;
+    stream << ";" << std::endl;
 }
 
 void Method::printImplementation( const cppgenerate::Class* parent, std::ostream& stream ) const{
-    bool addComma = false;
-
     if( !isValid() ) return;
 
-    stream << m_returnType
-           << " "
-           << parent->getName()
-           << "::"
-           << m_name
-           << "(";
+    printMethodSignature( stream, parent->getName() );
 
-    for( std::pair<std::string, std::string> argument : m_arguments ){
-        if( addComma ) stream << ", ";
-        stream << argument.first << " " << argument.second;
-        addComma = true;
-    }
-
-    stream << "){" << std::endl;
+    stream << "{" << std::endl;
 
     stream << m_code << std::endl;
     stream << "}" << std::endl;
@@ -121,4 +101,24 @@ void Method::printImplementation( const cppgenerate::Class* parent, std::ostream
 
 Method Method::create(){
     return Method();
+}
+
+void Method::printMethodSignature( std::ostream& stream, std::string className ) const {
+    bool addComma = false;
+
+    stream << m_returnType << " ";
+
+    if( className.size() > 0 ){
+        stream << className << "::";
+    }
+
+    stream << m_name << "(";
+
+    for( Argument argument : m_arguments ){
+        if( addComma ) stream << ", ";
+        stream << argument;
+        addComma = true;
+    }
+
+    stream << " )";
 }

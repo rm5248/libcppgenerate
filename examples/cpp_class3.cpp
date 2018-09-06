@@ -1,5 +1,6 @@
 #include <cppgenerate/class.h>
 #include <cppgenerate/method.h>
+#include <cppgenerate/argument.h>
 #include <iostream>
 
 int main(int argc, char** argv){
@@ -8,8 +9,12 @@ int main(int argc, char** argv){
     c.addMethod( cppgenerate::Method::create()
         .setName( "add" )
         .setDocumentation( "Adds two integers" )
-        .addArgument( "int", "arg1" )
-        .addArgument( "int", "arg2" )
+        .addArgument( cppgenerate::Argument()
+                 .setType( "int" )
+                 .setName( "arg1" ) )
+        .addArgument( cppgenerate::Argument()
+                 .setType( "int" )
+                 .setName( "arg2" ) )
         .setReturnType( "int" )
         .setCode( cppgenerate::CodeBlock::create().addLine( "return arg1 + arg2;" ) )
     );

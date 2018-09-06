@@ -1,7 +1,3 @@
-/*
- *
- */
-
 #ifndef CPPGENERATE_METHOD_H
 #define CPPGENERATE_METHOD_H
 
@@ -9,6 +5,7 @@
 #include <list>
 
 #include "codeblock.h"
+#include "argument.h"
 
 namespace cppgenerate{
 
@@ -19,6 +16,7 @@ class Class;
  */
 class Method{
   public:
+
     Method();
 
     Method( const Method& other );
@@ -41,9 +39,9 @@ class Method{
     Method& setReturnType( std::string returnType );
 
     /**
-     * Add an argument with the specified type and name
+     * Add an argument to the method
      */
-    Method& addArgument( std::string argumentType, std::string argumentName );
+    Method& addArgument( const Argument& arg );
 
     /**
      * Set the documentation for the method
@@ -73,10 +71,13 @@ class Method{
     static Method create();
 
   private:
+    void printMethodSignature( std::ostream& stream, std::string className ) const;
+
+  private:
     std::string m_name;
     std::string m_returnType;
     std::string m_documentation;
-    std::list<std::pair<std::string,std::string> > m_arguments;
+    std::list<Argument> m_arguments;
     CodeBlock m_code;
 };
 

@@ -69,6 +69,12 @@ std::string Class::getName() const{
     return m_className;
 }
 
+Class& Class::setName( std::string name ){
+    m_className = name;
+
+    return *this;
+}
+
 Class& Class::setNamespace( std::string namespaceName ){
     m_namespace = namespaceName;
 

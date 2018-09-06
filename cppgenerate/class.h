@@ -1,6 +1,5 @@
-/*
- *
- */
+#ifndef CPPGENERATE_CLASS_H
+#define CPPGENERATE_CLASS_H
 
 #include <string>
 #include <vector>
@@ -8,9 +7,7 @@
 
 #include "method.h"
 #include "membervariable.h"
-
-#ifndef CPPGENERATE_CLASS_H
-#define CPPGENERATE_CLASS_H
+#include "constructor.h"
 
 namespace cppgenerate{
 
@@ -51,6 +48,8 @@ class Class{
      * Get the name of this class
      */
     std::string getName() const;
+
+    Class& setName( std::string name );
 
     /**
      * Set the namespace for this class.
