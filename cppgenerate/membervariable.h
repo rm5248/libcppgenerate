@@ -2,6 +2,7 @@
 #define CPPGENERATE_MEMBERVARIABLE_H
 
 #include "variable.h"
+#include "codeblock.h"
 
 namespace cppgenerate{
 
@@ -50,7 +51,12 @@ class MemberVariable : public Variable {
     /**
      * Print the member variable to the output stream
      */
-    void print( std::ostream& stream );
+    void print( std::ostream& stream ) const;
+
+    /**
+     * print the member variable to the specified block
+     */
+    void print( cppgenerate::CodeBlock& block ) const;
 
   private:
     AccessModifier m_access;

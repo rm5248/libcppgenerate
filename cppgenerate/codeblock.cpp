@@ -51,7 +51,7 @@ CodeBlock& CodeBlock::addLine( std::string line ){
 }
 
 void CodeBlock::print( std::ostream& writer ) const{
-    writer << m_text;
+    writer << m_text.str();
 }
 
 std::ostringstream& CodeBlock::buffer(){

@@ -58,7 +58,39 @@ MemberVariable& MemberVariable::setChangedSignalName( std::string signalName ){
     return *this;
 }
 
-void MemberVariable::print( std::ostream& stream ){
+void MemberVariable::print( std::ostream& stream ) const{
     switch( m_access ){
+    }
+}
+
+void MemberVariable::print( cppgenerate::CodeBlock& block ) const {
+    switch( m_access ){
+        case AccessModifier::ACCESS_PUBLIC:
+            block.addLine( "public:");
+            break;
+        case AccessModifier::ACCESS_PRIVATE:
+            block.addLine( "private:");
+            break;
+        case AccessModifier::ACCESS_PROTECTED:
+            block.addLine( "protected:");
+            break;
+    }
+
+    block.addLine( m_type + " " + m_name + ";" );
+
+    if( m_generateSetter ){
+        block.addLine( "public:" )
+            .addLine( "void set" + m_name + "( " + m_type + " arg ){" )
+            .indent()
+            .addLine( m_name + " = arg;" )
+            .unindent();
+    }
+
+    if( m_generateGetter ){
+        block.addLine( "public:" )
+            .addLine( "void get" + m_name + "(){" )
+            .indent()
+            .addLine( "return " + m_name + ";" )
+            .unindent();
     }
 }

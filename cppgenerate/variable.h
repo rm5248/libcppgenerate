@@ -26,7 +26,7 @@ class Variable{
 
     static Variable create();
 
-  private:
+  protected:
     std::string m_type;
     std::string m_name;
     std::string m_initializer;

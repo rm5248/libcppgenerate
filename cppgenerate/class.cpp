@@ -168,6 +168,7 @@ void Class::printHeader( std::ostream& output ) const{
     }
 
     for( cppgenerate::MemberVariable variable : m_memberVariables ){
+        variable.print( block.buffer() );
         //output << "    " << ;
     }
 
