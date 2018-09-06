@@ -8,7 +8,11 @@
 #include <string>
 #include <list>
 
+#include "codeblock.h"
+
 namespace cppgenerate{
+
+class Class;
 
 /**
  * Represents a single method, generally on a class
@@ -41,7 +45,20 @@ class Method{
      */
     Method& addArgument( std::string argumentType, std::string argumentName );
 
+    /**
+     * Set the documentation for the method
+     */
     Method& setDocumentation( std::string documentation );
+
+    /**
+     * Add a block of code.  Appends to the currently existing code.
+     */
+    Method& addCode( const CodeBlock& block );
+
+    /**
+     * Set the code for this method
+     */
+    Method& setCode( const CodeBlock& block );
 
     /**
      * Print the method signature to the specified stream
@@ -51,7 +68,7 @@ class Method{
     /**
      * Print the method implementation to the specified stream
      */
-    void printImplementation( std::ostream& stream ) const;
+    void printImplementation( const Class* parent, std::ostream& stream ) const;
 
     static Method create();
 
@@ -60,6 +77,7 @@ class Method{
     std::string m_returnType;
     std::string m_documentation;
     std::list<std::pair<std::string,std::string> > m_arguments;
+    CodeBlock m_code;
 };
 
 }

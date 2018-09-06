@@ -4,6 +4,8 @@
 #include <string>
 #include <sstream>
 
+#include <iostream>
+
 namespace cppgenerate{
 
 class CodeBlock{
@@ -31,6 +33,26 @@ public:
      * Get the internal buffer for this code block
      */
     std::ostringstream& buffer();
+
+    /**
+     * Append a block of code to this block
+     */
+    CodeBlock& operator<<( const CodeBlock& other );
+
+    /**
+     * Write this block to the specified stream
+     */
+    friend std::ostream& operator<<( std::ostream& stream, const CodeBlock& block ){
+        stream << block.m_text.str();
+        return stream;
+    }
+
+    /**
+     * same as operator<<( const CodeBlock& other )
+     */
+    CodeBlock& addCode( const CodeBlock& other );
+
+    static CodeBlock create();
 
 private:
     std::ostringstream m_text;

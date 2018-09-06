@@ -134,7 +134,7 @@ endif( ENABLE_TESTS )
 # Enable examples, if specified
 #
 if( ENABLE_EXAMPLES )
-    add_subdirectory( examples/cpp_class )
+    add_subdirectory( examples )
 endif( ENABLE_EXAMPLES )
 
 message( "CMake command ${CMAKE_COMMAND}" )

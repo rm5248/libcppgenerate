@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <ostream>
+#include <iostream>
 
 using cppgenerate::Class;
 
@@ -114,6 +115,15 @@ Class& Class::addMemberVariable( const MemberVariable& var ){
     return *this;
 }
 
+Class& Class::addMemberVariable( const Variable& var ){
+    const MemberVariable* memVar = dynamic_cast<const MemberVariable*>( &var );
+    if( memVar ){
+        m_memberVariables.push_back( *memVar );
+    }
+
+    return *this;
+}
+
 Class& Class::setDocumentation( const std::string documentation ){
     m_documentation = documentation;
 
@@ -136,7 +146,7 @@ Class Class::create(){
 
 void Class::print( std::ostream& header, std::ostream& implementation ) const {
     printHeader( header );
-    //printImplementation( implementation );
+    printImplementation( implementation );
 }
 
 void Class::printHeader( std::ostream& output ) const{
@@ -154,7 +164,11 @@ void Class::printHeader( std::ostream& output ) const{
         output << m_namespace << " {" << std::endl;
     }
 
-    block.addLine( m_documentation );
+    if( m_documentation.size() > 0 ){
+        block.addLine( "/*" )
+            .addLine( m_documentation )
+            .addLine( "*/" );
+    }
     block.addLine( "class " + m_className + " {" );
 
     if( m_isQobject ){
@@ -168,8 +182,7 @@ void Class::printHeader( std::ostream& output ) const{
     }
 
     for( cppgenerate::MemberVariable variable : m_memberVariables ){
-        variable.print( block.buffer() );
-        //output << "    " << ;
+        variable.print( block );
     }
 
     block.addLine( "};" );
@@ -182,4 +195,7 @@ void Class::printHeader( std::ostream& output ) const{
 }
 
 void Class::printImplementation( std::ostream& implementation ) const{
+    for( cppgenerate::Method method :  m_methods ){
+        method.printImplementation( this, implementation );
+    }
 }

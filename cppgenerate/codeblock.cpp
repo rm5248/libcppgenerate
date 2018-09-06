@@ -16,7 +16,7 @@ CodeBlock& CodeBlock::operator=( const CodeBlock& other ){
     if( this != &other ){
         m_indent = other.m_indent;
         m_text.str( "" );
-        m_text << other.m_text;
+        m_text << other.m_text.str();
     }
 
     return *this;
@@ -48,6 +48,8 @@ CodeBlock& CodeBlock::setIndent( int indent ){
 
 CodeBlock& CodeBlock::addLine( std::string line ){
     m_text << std::string( m_indent, ' ' ) << line << std::endl;
+
+    return *this;
 }
 
 void CodeBlock::print( std::ostream& writer ) const{
@@ -56,4 +58,20 @@ void CodeBlock::print( std::ostream& writer ) const{
 
 std::ostringstream& CodeBlock::buffer(){
     return m_text;
+}
+
+CodeBlock& CodeBlock::operator<<( const CodeBlock& other ){
+    m_text << other.m_text.str();
+
+    return *this;
+}
+
+CodeBlock& CodeBlock::addCode( const CodeBlock& other ){
+    m_text << other;
+
+    return *this;
+}
+
+CodeBlock CodeBlock::create(){
+    return CodeBlock();
 }

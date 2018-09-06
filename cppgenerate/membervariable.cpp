@@ -14,7 +14,8 @@ MemberVariable::MemberVariable() :
 MemberVariable::~MemberVariable(){
 }
 
-MemberVariable::MemberVariable( const MemberVariable& other ){
+MemberVariable::MemberVariable( const MemberVariable& other ) :
+    Variable( other ) {
     m_access = other.m_access;
     m_generateGetter = other.m_generateGetter;
     m_generateSetter = other.m_generateSetter;
@@ -23,6 +24,7 @@ MemberVariable::MemberVariable( const MemberVariable& other ){
 
 MemberVariable& MemberVariable::operator=( const MemberVariable& other ){
     if( this != &other ){
+        Variable::operator=( other );
         m_access = other.m_access;
         m_generateGetter = other.m_generateGetter;
         m_generateSetter = other.m_generateSetter;
@@ -58,12 +60,21 @@ MemberVariable& MemberVariable::setChangedSignalName( std::string signalName ){
     return *this;
 }
 
+MemberVariable MemberVariable::create(){
+    return MemberVariable();
+}
+
 void MemberVariable::print( std::ostream& stream ) const{
     switch( m_access ){
     }
 }
 
 void MemberVariable::print( cppgenerate::CodeBlock& block ) const {
+    if( m_name.size() == 0 || m_type.size() == 0 ){
+        //Can't generate code for this memvar
+        return;
+    }
+
     switch( m_access ){
         case AccessModifier::ACCESS_PUBLIC:
             block.addLine( "public:");
@@ -76,21 +87,25 @@ void MemberVariable::print( cppgenerate::CodeBlock& block ) const {
             break;
     }
 
-    block.addLine( m_type + " " + m_name + ";" );
+    block.indent()
+        .addLine( m_type + " " + m_name + ";" )
+        .unindent();
 
     if( m_generateSetter ){
         block.addLine( "public:" )
             .addLine( "void set" + m_name + "( " + m_type + " arg ){" )
             .indent()
             .addLine( m_name + " = arg;" )
-            .unindent();
+            .unindent()
+            .addLine( "}" );
     }
 
     if( m_generateGetter ){
         block.addLine( "public:" )
-            .addLine( "void get" + m_name + "(){" )
+            .addLine( m_type + " get" + m_name + "(){" )
             .indent()
             .addLine( "return " + m_name + ";" )
-            .unindent();
+            .unindent()
+            .addLine( "}" );
     }
 }

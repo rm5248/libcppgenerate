@@ -1,7 +1,7 @@
-include( ../examples-common.cmake )
-
 set( EXAMPLES 
     cpp_class1.cpp 
+    cpp_class2.cpp
+    cpp_class3.cpp
 )
 
 foreach( example ${EXAMPLES} )

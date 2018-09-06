@@ -1,12 +1,16 @@
 #include <utility>
 #include <ostream>
 
+#include <iostream>
+
 #include "method.h"
+#include "class.h"
 
 using cppgenerate::Method;
 
 Method::Method() : 
     m_returnType( "void" ){
+    m_code.setIndent( 4 );
 }
 
 Method::Method( const Method& other ){
@@ -14,6 +18,7 @@ Method::Method( const Method& other ){
     m_returnType = other.m_returnType;
     m_documentation = other.m_documentation;
     m_arguments = other.m_arguments;
+    m_code = other.m_code;
 }
 
 Method::~Method(){
@@ -25,6 +30,7 @@ Method& Method::operator=( const Method& other ){
         m_returnType = other.m_returnType;
         m_documentation = other.m_documentation;
         m_arguments = other.m_arguments;
+        m_code = other.m_code;
     }
 
     return *this;
@@ -58,6 +64,18 @@ Method& Method::setDocumentation( std::string documentation ){
     return *this;
 }
 
+Method& Method::addCode( const CodeBlock& block ){
+    m_code << block;
+
+    return *this;
+}
+
+Method& Method::setCode( const CodeBlock& block ){
+    m_code = block;
+
+    return *this;
+}
+
 void Method::printSignature( std::ostream& stream ) const {
     bool addComma = false;
 
@@ -75,6 +93,30 @@ void Method::printSignature( std::ostream& stream ) const {
     }
 
     stream << ");" << std::endl;
+}
+
+void Method::printImplementation( const cppgenerate::Class* parent, std::ostream& stream ) const{
+    bool addComma = false;
+
+    if( !isValid() ) return;
+
+    stream << m_returnType
+           << " "
+           << parent->getName()
+           << "::"
+           << m_name
+           << "(";
+
+    for( std::pair<std::string, std::string> argument : m_arguments ){
+        if( addComma ) stream << ", ";
+        stream << argument.first << " " << argument.second;
+        addComma = true;
+    }
+
+    stream << "){" << std::endl;
+
+    stream << m_code << std::endl;
+    stream << "}" << std::endl;
 }
 
 Method Method::create(){

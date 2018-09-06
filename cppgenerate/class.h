@@ -92,6 +92,13 @@ class Class{
     Class& addMemberVariable( const MemberVariable& var );
 
     /**
+     * Attempts to add a variable as a member variable.
+     * This method does a dynamic_cast of the Varaible, and thus may fail
+     * at runtime.
+     */
+    Class& addMemberVariable( const Variable& var );
+
+    /**
      * Set the documentation for this class
      */
     Class& setDocumentation( const std::string documentation );
