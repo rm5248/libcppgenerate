@@ -2,7 +2,7 @@
 #define CPPGENERATE_METHOD_H
 
 #include <string>
-#include <list>
+#include <vector>
 
 #include "codeblock.h"
 #include "argument.h"
@@ -68,6 +68,12 @@ class Method{
      */
     void printImplementation( const Class* parent, std::ostream& stream ) const;
 
+    std::vector<Argument> arguments() const;
+
+    std::string name() const;
+
+    std::string returnType() const;
+
     static Method create();
 
   private:
@@ -77,7 +83,7 @@ class Method{
     std::string m_name;
     std::string m_returnType;
     std::string m_documentation;
-    std::list<Argument> m_arguments;
+    std::vector<Argument> m_arguments;
     CodeBlock m_code;
 };
 

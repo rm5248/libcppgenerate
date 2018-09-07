@@ -10,6 +10,16 @@ static char sanitizeChar( char c ){
     }
 }
 
+static char uppercaseChar( char c ){
+    if( c >= 'A' && c <= 'Z' ){
+        return c;
+    }else if( c >= 'a' && c <= 'z' ){
+        return c - 32;
+    }
+
+    return '_';
+}
+
 std::string cppgenerate::sanitizeString( std::string input ){
     std::string newString;
 
@@ -18,6 +28,19 @@ std::string cppgenerate::sanitizeString( std::string input ){
     while( it != input.end() ){
         char c = *it;
         newString.push_back( sanitizeChar( c ) );
+        it++;
+    }
+
+    return newString;
+}
+
+std::string cppgenerate::uppercase( std::string input ){
+    std::string newString;
+    std::string::const_iterator it = input.begin();
+
+    while( it != input.end() ){
+        char c = *it;
+        newString.push_back( uppercaseChar( c ) );
         it++;
     }
 

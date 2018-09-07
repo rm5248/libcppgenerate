@@ -51,6 +51,7 @@ set( CPPGENERATE_HEADERS
   cppgenerate/printer.h
   cppgenerate/argument.h
   cppgenerate/constructor.h
+  cppgenerate/accessmodifier.h
 )
 
 #

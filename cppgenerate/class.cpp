@@ -164,6 +164,10 @@ void Class::print( std::ostream& header, std::ostream& implementation ) const {
 
 void Class::printHeader( std::ostream& output ) const{
     cppgenerate::CodeBlock block;
+    std::string classNameUpper = cppgenerate::uppercase( m_className );
+
+    output << "#ifndef " << classNameUpper << "_H" << std::endl;
+    output << "#define " << classNameUpper << "_H" << std::endl << std::endl;
 
     for( std::string include : m_systemIncludes ){
         output << "#include <" << include << ">" << std::endl;
@@ -174,7 +178,7 @@ void Class::printHeader( std::ostream& output ) const{
     }
 
     if( m_namespace.size() > 1 ){
-        output << m_namespace << " {" << std::endl;
+        output << "namespace " << m_namespace << " {" << std::endl;
     }
 
     if( m_documentation.size() > 0 ){
@@ -231,6 +235,8 @@ void Class::printHeader( std::ostream& output ) const{
     if( m_namespace.size() > 1 ){
         output << "} /* namespace " << m_namespace << " */" << std::endl;
     }
+
+    output << "#endif /* " << classNameUpper << "_H */" << std::endl;
 }
 
 void Class::printImplementation( std::ostream& implementation ) const{

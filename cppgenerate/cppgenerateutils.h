@@ -7,6 +7,8 @@ namespace cppgenerate{
 
 std::string sanitizeString( std::string input );
 
+std::string uppercase( std::string uppercase );
+
 }
 
 #endif

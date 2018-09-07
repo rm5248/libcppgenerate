@@ -122,3 +122,15 @@ void Method::printMethodSignature( std::ostream& stream, std::string className )
 
     stream << " )";
 }
+
+std::vector<cppgenerate::Argument> Method::arguments() const {
+    return m_arguments;
+}
+
+std::string Method::name() const{
+    return m_name;
+}
+
+std::string Method::returnType() const {
+    return m_returnType;
+}

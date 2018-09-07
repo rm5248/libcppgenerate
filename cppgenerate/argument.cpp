@@ -60,3 +60,11 @@ Argument& Argument::setPassType( ArgumentPassType passType ){
 Argument Argument::create(){
     return Argument();
 }
+
+std::string Argument::name() const {
+    return m_name;
+}
+
+std::string Argument::type() const {
+    return m_type;
+}
