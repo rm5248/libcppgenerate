@@ -24,7 +24,7 @@ int main( int argc, char** argv ){
     header.open( "generated-class1.h" );
 
     std::ofstream cpp;
-    cpp.open( "generated-class2.cpp" );
+    cpp.open( "generated-class1.cpp" );
 
     c.print( header, cpp );
 
