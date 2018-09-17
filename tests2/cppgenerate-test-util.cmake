@@ -43,3 +43,18 @@ function(add_cppgenerate_test generator_name generated_files test_name)
     add_test( NAME ${test_name} COMMAND ${test_binary} )
 
 endfunction()
+
+#
+# Add a simple test that does not need any code to be generated
+#
+# param1: test_name - the name of the test(.cpp file name)
+function(add_cppgenerate_test_simple test_name)
+    link_directories( ${CMAKE_BINARY_DIR} )
+
+    add_executable( test-${test_name} ${test_name}.cpp )
+    target_link_libraries( test-${test_name} cppgenerate )
+    target_include_directories( test-${test_name} PUBLIC ${CMAKE_SOURCE_DIR} )
+    target_include_directories( test-${test_name} PUBLIC ${CMAKE_CURRENT_BINARY_DIR} )
+    
+    add_test( NAME ${test_name} COMMAND test-${test_name} )
+endfunction()

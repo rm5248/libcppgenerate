@@ -1,12 +1,13 @@
-# generator-name = generate-class1
-# generated-files = generate-class1.h generate-class2.cpp
-# test-name = test1
 include(./cppgenerate-test-util.cmake)
 
+#add_cppgenerate_test("${test1_generator_name}" "${test1_generated_files}" "${test1_name}")
+add_cppgenerate_test( generate-class1 "generated-class1.h generated-class1.cpp" test1)
 
-set(test1_generator_name generate-class1)
-set(test1_generated_files generated-class1.h generated-class1.cpp)
-set(test1_name test1)
-
-add_cppgenerate_test("${test1_generator_name}" "${test1_generated_files}" "${test1_name}")
-
+#
+# Enum tests
+#
+add_cppgenerate_test_simple( enum_name )
+add_cppgenerate_test_simple( enum_with_space )
+add_cppgenerate_test_simple( enum_single_value )
+add_cppgenerate_test_simple( enum_multiple_value )
+add_cppgenerate_test_simple( enum_name_bad_chars )
