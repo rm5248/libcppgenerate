@@ -132,8 +132,7 @@ ENDIF( WIN32 )
 #
 if( ENABLE_TESTS )
     enable_testing()
-#    add_subdirectory( tests )
-    add_subdirectory( tests2 )
+    add_subdirectory( tests )
 endif( ENABLE_TESTS )
 
 #
