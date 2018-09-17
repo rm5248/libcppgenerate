@@ -9,7 +9,8 @@
 using cppgenerate::Method;
 
 Method::Method() : 
-    m_returnType( "void" ){
+    m_returnType( "void" ),
+    m_access( cppgenerate::AccessModifier::PRIVATE ){
     m_code.setIndent( 4 );
 }
 
@@ -19,6 +20,7 @@ Method::Method( const Method& other ){
     m_documentation = other.m_documentation;
     m_arguments = other.m_arguments;
     m_code = other.m_code;
+    m_access = other.m_access;
 }
 
 Method::~Method(){
@@ -31,6 +33,7 @@ Method& Method::operator=( const Method& other ){
         m_documentation = other.m_documentation;
         m_arguments = other.m_arguments;
         m_code = other.m_code;
+        m_access = other.m_access;
     }
 
     return *this;
@@ -78,6 +81,12 @@ Method& Method::setCode( const CodeBlock& block ){
 
 void Method::printSignature( std::ostream& stream ) const {
     if( !isValid() ) return;
+
+    switch( m_access ){
+    case cppgenerate::AccessModifier::PRIVATE: stream << "private:" << std::endl; break;
+    case cppgenerate::AccessModifier::PUBLIC: stream << "public:" << std::endl; break;
+    case cppgenerate::AccessModifier::PROTECTED: stream << "protected:" << std::endl; break;
+    }
 
     if( m_documentation.length() > 1 ){
         stream << "/** " << m_documentation << " */" << std::endl;
@@ -133,4 +142,10 @@ std::string Method::name() const{
 
 std::string Method::returnType() const {
     return m_returnType;
+}
+
+Method& Method::setAccessModifier( AccessModifier modifier ){
+    m_access = modifier;
+
+    return *this;
 }

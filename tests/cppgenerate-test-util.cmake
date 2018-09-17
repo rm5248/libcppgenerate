@@ -19,11 +19,19 @@ function(add_cppgenerate_test generator_name generated_files test_name)
         set(real_generated ${real_generated} ${CMAKE_CURRENT_BINARY_DIR}/${single_file})
     endforeach(single_file)
 
+    # Add all of our generated .cpp files to the test binary
+#    foreach(single_file ${generated_files})
+#        string(FIND ${single_file} ".cpp" is_cpp)
+#        if( ${is_cpp} GREATER 0 )
+#            set(cpp_generated ${cpp_generated} ${single_file})
+#        endif( ${is_cpp} GREATER 0 )
+#    endforeach(single_file)
+
     # All of the binaries should link with the library in our binary directory
     link_directories( ${CMAKE_BINARY_DIR} )
 
     # The we need a generator_name-generate executable to generate the files needed for this test
-    add_executable( ${generator_binary} ${generator_name}.cpp )
+    add_executable( ${generator_binary} ${generator_name}.cpp ${cpp_generated} )
     target_link_libraries( ${generator_binary} cppgenerate )
     target_include_directories( ${generator_binary} PUBLIC ${CMAKE_SOURCE_DIR} )
 

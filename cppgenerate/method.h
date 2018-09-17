@@ -6,6 +6,7 @@
 
 #include "codeblock.h"
 #include "argument.h"
+#include "accessmodifier.h"
 
 namespace cppgenerate{
 
@@ -58,6 +59,8 @@ class Method{
      */
     Method& setCode( const CodeBlock& block );
 
+    Method& setAccessModifier( AccessModifier modifier );
+
     /**
      * Print the method signature to the specified stream
      */
@@ -85,6 +88,7 @@ class Method{
     std::string m_documentation;
     std::vector<Argument> m_arguments;
     CodeBlock m_code;
+    AccessModifier m_access;
 };
 
 }
