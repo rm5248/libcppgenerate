@@ -240,6 +240,12 @@ void Class::printHeader( std::ostream& output ) const{
 }
 
 void Class::printImplementation( std::ostream& implementation ) const{
+    implementation << "#include \"" << m_className << ".h\"" << std::endl << std::endl;
+
+    if( m_namespace.size() ){
+        implementation << "using " << m_namespace << "::" << m_className << ";" << std::endl << std::endl;
+    }
+
     for( cppgenerate::Constructor constructor : m_constructors ){
         constructor.printImplementation( this, implementation );
     }

@@ -3,17 +3,17 @@
 #include <fstream>
 
 int main(){
-    cppgenerate::Class c( "FooClass" );
+    cppgenerate::Class c( "ClassWithMethod" );
 
     c.addMethod( cppgenerate::Method::create()
         .setName( "exampleMethod" )
         .setAccessModifier( cppgenerate::AccessModifier::PUBLIC ) );
     
     std::ofstream header;
-    header.open( "c-with-method.h" );
+    header.open( "ClassWithMethod.h" );
 
     std::ofstream cpp;
-    cpp.open( "c-with-method.cpp" );
+    cpp.open( "ClassWithMethod.cpp" );
 
     c.print( header, cpp );
 

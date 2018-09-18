@@ -21,10 +21,10 @@ int main( int argc, char** argv ){
     );
 
     std::ofstream header;
-    header.open( "generated-class1.h" );
+    header.open( "FooClass.h" );
 
     std::ofstream cpp;
-    cpp.open( "generated-class1.cpp" );
+    cpp.open( "FooClass.cpp" );
 
     c.print( header, cpp );
 

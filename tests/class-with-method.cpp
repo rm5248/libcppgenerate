@@ -1,7 +1,7 @@
-#include "c-with-method.h"
+#include "ClassWithMethod.h"
 
 int main(){
-    FooClass f;
+    ClassWithMethod f;
 
     f.exampleMethod();
 }

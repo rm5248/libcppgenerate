@@ -20,23 +20,24 @@ function(add_cppgenerate_test generator_name generated_files test_name)
     endforeach(single_file)
 
     # Add all of our generated .cpp files to the test binary
-#    foreach(single_file ${generated_files})
-#        string(FIND ${single_file} ".cpp" is_cpp)
-#        if( ${is_cpp} GREATER 0 )
-#            set(cpp_generated ${cpp_generated} ${single_file})
-#        endif( ${is_cpp} GREATER 0 )
-#    endforeach(single_file)
+    foreach(single_file ${generated_files})
+        string(FIND ${single_file} ".cpp" is_cpp)
+        if( ${is_cpp} GREATER 0 )
+            set(cpp_generated ${cpp_generated} ${single_file})
+        endif( ${is_cpp} GREATER 0 )
+    endforeach(single_file)
+message("cppgenerated ${cpp_generated}")
 
     # All of the binaries should link with the library in our binary directory
     link_directories( ${CMAKE_BINARY_DIR} )
 
     # The we need a generator_name-generate executable to generate the files needed for this test
-    add_executable( ${generator_binary} ${generator_name}.cpp ${cpp_generated} )
+    add_executable( ${generator_binary} ${generator_name}.cpp )
     target_link_libraries( ${generator_binary} cppgenerate )
     target_include_directories( ${generator_binary} PUBLIC ${CMAKE_SOURCE_DIR} )
 
     # The main test
-    add_executable( ${test_binary} ${test_name}.cpp )
+    add_executable( ${test_binary} ${test_name}.cpp ${cpp_generated} )
     target_link_libraries( ${test_binary} cppgenerate )
     target_include_directories( ${test_binary} PUBLIC ${CMAKE_SOURCE_DIR} )
     target_include_directories( ${test_binary} PUBLIC ${CMAKE_CURRENT_BINARY_DIR} )

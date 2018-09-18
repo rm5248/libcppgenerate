@@ -1,4 +1,4 @@
-#include "generated-class1.h"
+#include "FooClass.h"
 
 int main( int argc, char** argv ){
     return 0;
