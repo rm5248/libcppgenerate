@@ -98,9 +98,9 @@ IF( UNIX )
 
     CONFIGURE_FILE(
         "${CMAKE_CURRENT_SOURCE_DIR}/cppgenerate.pc.cmake"
-        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc"
+        "${CMAKE_CURRENT_BINARY_DIR}/cppgenerate.pc"
     )
-    INSTALL( FILES "${CMAKE_BINARY_DIR}/${PROJECT_NAME}.pc"
+    INSTALL( FILES "${CMAKE_BINARY_DIR}/cppgenerate.pc"
              DESTINATION lib/pkgconfig)
 ENDIF( UNIX )
 
