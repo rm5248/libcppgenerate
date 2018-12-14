@@ -61,6 +61,8 @@ class Method{
 
     Method& setAccessModifier( AccessModifier modifier );
 
+    Method& setStatic( bool isStatic );
+
     /**
      * Print the method signature to the specified stream
      *
@@ -95,6 +97,7 @@ class Method{
     std::vector<Argument> m_arguments;
     CodeBlock m_code;
     AccessModifier m_access;
+    bool m_isStatic;
 };
 
 }

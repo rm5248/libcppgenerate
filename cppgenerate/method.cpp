@@ -22,6 +22,7 @@ Method::Method( const Method& other ){
     m_arguments = other.m_arguments;
     m_code = other.m_code;
     m_access = other.m_access;
+    m_isStatic = other.m_isStatic;
 }
 
 Method::~Method(){
@@ -35,6 +36,7 @@ Method& Method::operator=( const Method& other ){
         m_arguments = other.m_arguments;
         m_code = other.m_code;
         m_access = other.m_access;
+        m_isStatic = other.m_isStatic;
     }
 
     return *this;
@@ -97,6 +99,7 @@ void Method::printSignature( std::ostream& stream, int indent, bool withAccessMo
     }
 
     cppgenerate::insertSpaces( stream, indent );
+    if( m_isStatic ) stream << "static ";
     printMethodSignature( stream, "" );
 
     stream << ";" << std::endl;
@@ -157,4 +160,8 @@ Method& Method::setAccessModifier( AccessModifier modifier ){
 
 cppgenerate::AccessModifier Method::accessModifier() const{
     return m_access;
+}
+
+Method& Method::setStatic( bool isStatic ){
+    m_isStatic = isStatic;
 }
