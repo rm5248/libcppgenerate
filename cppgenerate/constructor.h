@@ -48,12 +48,14 @@ class Constructor {
     /**
      * Print the constructor signature to the specified stream
      */
-    void printSignature( const Class* parent, std::ostream& stream ) const;
+    void printSignature( const Class* parent, std::ostream& stream, bool withAccessModifier ) const;
 
     /**
      * Print the constructor implementation to the specified stream
      */
     void printImplementation( const Class* parent, std::ostream& stream ) const;
+
+    AccessModifier accessModifier() const;
 
     static Constructor create();
 

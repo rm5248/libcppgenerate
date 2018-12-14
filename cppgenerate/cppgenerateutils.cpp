@@ -46,3 +46,9 @@ std::string cppgenerate::uppercase( std::string input ){
 
     return newString;
 }
+
+void cppgenerate::insertSpaces( std::ostream& stream, int spaces ){
+    for( int x = 0; x < spaces; x++ ){
+        stream << " ";
+    }
+}

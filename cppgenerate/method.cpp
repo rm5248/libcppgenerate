@@ -5,6 +5,7 @@
 
 #include "method.h"
 #include "class.h"
+#include "cppgenerateutils.h"
 
 using cppgenerate::Method;
 
@@ -79,19 +80,23 @@ Method& Method::setCode( const CodeBlock& block ){
     return *this;
 }
 
-void Method::printSignature( std::ostream& stream ) const {
+void Method::printSignature( std::ostream& stream, int indent, bool withAccessModifier ) const {
     if( !isValid() ) return;
 
-    switch( m_access ){
-    case cppgenerate::AccessModifier::PRIVATE: stream << "private:" << std::endl; break;
-    case cppgenerate::AccessModifier::PUBLIC: stream << "public:" << std::endl; break;
-    case cppgenerate::AccessModifier::PROTECTED: stream << "protected:" << std::endl; break;
+    if( withAccessModifier ){
+        switch( m_access ){
+        case cppgenerate::AccessModifier::PRIVATE: stream << "private:" << std::endl; break;
+        case cppgenerate::AccessModifier::PUBLIC: stream << "public:" << std::endl; break;
+        case cppgenerate::AccessModifier::PROTECTED: stream << "protected:" << std::endl; break;
+        }
     }
 
     if( m_documentation.length() > 1 ){
+        cppgenerate::insertSpaces( stream, indent );
         stream << "/** " << m_documentation << " */" << std::endl;
     }
 
+    cppgenerate::insertSpaces( stream, indent );
     printMethodSignature( stream, "" );
 
     stream << ";" << std::endl;
@@ -148,4 +153,8 @@ Method& Method::setAccessModifier( AccessModifier modifier ){
     m_access = modifier;
 
     return *this;
+}
+
+cppgenerate::AccessModifier Method::accessModifier() const{
+    return m_access;
 }

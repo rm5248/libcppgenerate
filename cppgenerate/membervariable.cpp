@@ -64,27 +64,26 @@ MemberVariable MemberVariable::create(){
     return MemberVariable();
 }
 
-void MemberVariable::print( std::ostream& stream ) const{
-    switch( m_access ){
-    }
-}
+void MemberVariable::print( std::ostream& stream, int indent, bool withAccessModifier ) const {
+    cppgenerate::CodeBlock block;
 
-void MemberVariable::print( cppgenerate::CodeBlock& block ) const {
     if( m_name.size() == 0 || m_type.size() == 0 ){
         //Can't generate code for this memvar
         return;
     }
 
-    switch( m_access ){
-        case AccessModifier::PUBLIC:
-            block.addLine( "public:");
-            break;
-        case AccessModifier::PRIVATE:
-            block.addLine( "private:");
-            break;
-        case AccessModifier::PROTECTED:
-            block.addLine( "protected:");
-            break;
+    if( withAccessModifier ){
+        switch( m_access ){
+            case AccessModifier::PUBLIC:
+                block.addLine( "public:");
+                break;
+            case AccessModifier::PRIVATE:
+                block.addLine( "private:");
+                break;
+            case AccessModifier::PROTECTED:
+                block.addLine( "protected:");
+                break;
+        }
     }
 
     block.indent()
@@ -108,4 +107,10 @@ void MemberVariable::print( cppgenerate::CodeBlock& block ) const {
             .unindent()
             .addLine( "}" );
     }
+
+    block.print( stream );
+}
+
+cppgenerate::AccessModifier MemberVariable::accessModifier() const{
+    return m_access;
 }

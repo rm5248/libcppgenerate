@@ -10,6 +10,7 @@ Constructor::Constructor( const Constructor& other ){
     m_documentation = other.m_documentation;
     m_arguments = other.m_arguments;
     m_code = other.m_code;
+    m_accessModifier = other.m_accessModifier;
 }
 
 Constructor& Constructor::operator=( const Constructor& other ){
@@ -18,6 +19,7 @@ Constructor& Constructor::operator=( const Constructor& other ){
         m_arguments.clear();
         m_arguments = other.m_arguments;
         m_code = other.m_code;
+        m_accessModifier = other.m_accessModifier;
     }
 
     return *this;
@@ -47,7 +49,21 @@ Constructor& Constructor::setCode( const CodeBlock& block ){
     return *this;
 }
 
-void Constructor::printSignature( const cppgenerate::Class* parent, std::ostream& stream ) const {
+void Constructor::printSignature( const cppgenerate::Class* parent, std::ostream& stream, bool withAccessModifier ) const {
+    if( withAccessModifier ){
+        switch( m_accessModifier ){
+            case AccessModifier::PUBLIC:
+                stream << "public:" << std::endl;
+                break;
+            case AccessModifier::PRIVATE:
+                stream << "private:" << std::endl;
+                break;
+            case AccessModifier::PROTECTED:
+                stream << "protected:" << std::endl;
+                break;
+        }
+    }
+
     if( m_documentation.length() > 1 ){
         stream << "/** " << m_documentation << " */" << std::endl;
     }
@@ -118,4 +134,8 @@ Constructor& Constructor::setAccessModifier( cppgenerate::AccessModifier modifie
     m_accessModifier = modifier;
 
     return *this;
+}
+
+cppgenerate::AccessModifier Constructor::accessModifier() const {
+    return m_accessModifier;
 }

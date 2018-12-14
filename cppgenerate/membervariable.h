@@ -46,12 +46,9 @@ class MemberVariable : public Variable {
     /**
      * Print the member variable to the output stream
      */
-    void print( std::ostream& stream ) const;
+    void print( std::ostream& stream, int indent, bool withAccessModifier ) const;
 
-    /**
-     * print the member variable to the specified block
-     */
-    void print( cppgenerate::CodeBlock& block ) const;
+    AccessModifier accessModifier() const;
 
   private:
     AccessModifier m_access;

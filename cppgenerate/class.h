@@ -145,6 +145,10 @@ private:
     void printHeader( std::ostream& header ) const;
     void printImplementation( std::ostream& implementation ) const;
 
+    void printConstructorSignatures( std::ostream& stream, AccessModifier access ) const;
+    void printMethodSignatures( std::ostream& stream, AccessModifier access ) const;
+    void printVariables( std::ostream& stream, AccessModifier access ) const;
+
 private:
     friend class Constructor;
 

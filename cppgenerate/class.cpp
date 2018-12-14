@@ -216,17 +216,19 @@ void Class::printHeader( std::ostream& output ) const{
             .unindent();
     }
 
-    for( cppgenerate::Constructor constructor : m_constructors ){
-        constructor.printSignature( this, block.buffer() );
-    }
 
-    for( cppgenerate::Method method :  m_methods ){
-        method.printSignature( block.buffer() );
-    }
+    printConstructorSignatures( block.buffer(), AccessModifier::PUBLIC );
+    printConstructorSignatures( block.buffer(), AccessModifier::PROTECTED );
+    printConstructorSignatures( block.buffer(), AccessModifier::PRIVATE );
 
-    for( cppgenerate::MemberVariable variable : m_memberVariables ){
-        variable.print( block );
-    }
+    printMethodSignatures( block.buffer(), AccessModifier::PUBLIC );
+    printMethodSignatures( block.buffer(), AccessModifier::PROTECTED );
+    printMethodSignatures( block.buffer(), AccessModifier::PRIVATE );
+
+    printVariables( block.buffer(), AccessModifier::PUBLIC );
+    printVariables( block.buffer(), AccessModifier::PROTECTED );
+    printVariables( block.buffer(), AccessModifier::PRIVATE );
+
 
     block.addLine( "};" );
 
@@ -237,6 +239,67 @@ void Class::printHeader( std::ostream& output ) const{
     }
 
     output << "#endif /* " << classNameUpper << "_H */" << std::endl;
+}
+
+
+void Class::printConstructorSignatures( std::ostream& stream, AccessModifier modifier ) const{
+    bool havePrinted = false;
+    std::string accessString;
+
+    switch( modifier ){
+    case cppgenerate::AccessModifier::PRIVATE: accessString = "private:"; break;
+    case cppgenerate::AccessModifier::PUBLIC: accessString = "public:"; break;
+    case cppgenerate::AccessModifier::PROTECTED: accessString = "protected:"; break;
+    }
+
+    for( cppgenerate::Constructor constructor : m_constructors ){
+        if( constructor.accessModifier() != modifier ) continue;
+        if( !havePrinted ){
+            stream << accessString << std::endl;
+            havePrinted = true;
+        }
+        constructor.printSignature( this, stream, false );
+    }
+}
+
+void Class::printMethodSignatures( std::ostream& stream, AccessModifier modifier ) const {
+    bool havePrinted = false;
+    std::string accessString;
+
+    switch( modifier ){
+    case cppgenerate::AccessModifier::PRIVATE: accessString = "private:"; break;
+    case cppgenerate::AccessModifier::PUBLIC: accessString = "public:"; break;
+    case cppgenerate::AccessModifier::PROTECTED: accessString = "protected:"; break;
+    }
+
+    for( cppgenerate::Method method :  m_methods ){
+        if( method.accessModifier() != modifier ) continue;
+        if( !havePrinted ){
+            stream << accessString << std::endl;
+            havePrinted = true;
+        }
+        method.printSignature( stream, 4, false );
+    }
+}
+
+void Class::printVariables( std::ostream& stream, AccessModifier modifier ) const{
+    bool havePrinted = false;
+    std::string accessString;
+
+    switch( modifier ){
+    case cppgenerate::AccessModifier::PRIVATE: accessString = "private:"; break;
+    case cppgenerate::AccessModifier::PUBLIC: accessString = "public:"; break;
+    case cppgenerate::AccessModifier::PROTECTED: accessString = "protected:"; break;
+    }
+
+    for( cppgenerate::MemberVariable variable : m_memberVariables ){
+        if( variable.accessModifier() != modifier ) continue;
+        if( !havePrinted ){
+            stream << accessString << std::endl;
+            havePrinted = true;
+        }
+        variable.print( stream, 4, false );
+    }
 }
 
 void Class::printImplementation( std::ostream& implementation ) const{

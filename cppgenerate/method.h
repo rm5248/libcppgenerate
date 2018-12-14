@@ -63,8 +63,12 @@ class Method{
 
     /**
      * Print the method signature to the specified stream
+     *
+     * @param stream Where to write the signature to
+     * @param indent The level of indent for this signature.
+     * @param withAccessModifier True if the access level should be printed, false otherwise
      */
-    void printSignature( std::ostream& stream ) const;
+    void printSignature( std::ostream& stream, int indent, bool withAccessModifier ) const;
 
     /**
      * Print the method implementation to the specified stream
@@ -76,6 +80,8 @@ class Method{
     std::string name() const;
 
     std::string returnType() const;
+
+    AccessModifier accessModifier() const;
 
     static Method create();
 
