@@ -9,7 +9,7 @@ CodeBlock::CodeBlock() :
 CodeBlock::CodeBlock( const CodeBlock& other ) :
     m_indent( other.m_indent )
 {
-    m_text << other.m_text;
+    m_text << other.m_text.str();
 }
 
 CodeBlock& CodeBlock::operator=( const CodeBlock& other ){
