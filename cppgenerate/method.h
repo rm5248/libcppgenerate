@@ -63,6 +63,13 @@ class Method{
 
     Method& setStatic( bool isStatic );
 
+    Method& setVirtual( bool isVirtual );
+
+    /**
+     * Set if this method is pure virtual.  Also sets virtual, no need to also call setVirtual
+     */
+    Method& setPureVirtual( bool isPureVirutal );
+
     /**
      * Print the method signature to the specified stream
      *
@@ -75,7 +82,7 @@ class Method{
     /**
      * Print the method implementation to the specified stream
      */
-    void printImplementation( const Class* parent, std::ostream& stream ) const;
+    void printImplementation( const Class* parent, bool inHeader, std::ostream& stream ) const;
 
     std::vector<Argument> arguments() const;
 
@@ -98,6 +105,8 @@ class Method{
     CodeBlock m_code;
     AccessModifier m_access;
     bool m_isStatic;
+    bool m_isVirtual;
+    bool m_isPureVirtual;
 };
 
 }

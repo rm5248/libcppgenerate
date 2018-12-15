@@ -163,6 +163,10 @@ void Class::print( std::ostream& header, std::ostream& implementation ) const {
 }
 
 void Class::printHeader( std::ostream& output ) const{
+    print( output, false );
+}
+
+void Class::print( std::ostream& output, bool headerOnly ) const {
     cppgenerate::CodeBlock block;
     std::string classNameUpper = cppgenerate::uppercase( m_className );
 
@@ -217,13 +221,13 @@ void Class::printHeader( std::ostream& output ) const{
     }
 
 
-    printConstructorSignatures( block.buffer(), AccessModifier::PUBLIC );
-    printConstructorSignatures( block.buffer(), AccessModifier::PROTECTED );
-    printConstructorSignatures( block.buffer(), AccessModifier::PRIVATE );
+    printConstructors( block.buffer(), AccessModifier::PUBLIC, !headerOnly );
+    printConstructors( block.buffer(), AccessModifier::PROTECTED, !headerOnly );
+    printConstructors( block.buffer(), AccessModifier::PRIVATE, !headerOnly );
 
-    printMethodSignatures( block.buffer(), AccessModifier::PUBLIC );
-    printMethodSignatures( block.buffer(), AccessModifier::PROTECTED );
-    printMethodSignatures( block.buffer(), AccessModifier::PRIVATE );
+    printMethods( block.buffer(), AccessModifier::PUBLIC, !headerOnly );
+    printMethods( block.buffer(), AccessModifier::PROTECTED, !headerOnly );
+    printMethods( block.buffer(), AccessModifier::PRIVATE, !headerOnly );
 
     printVariables( block.buffer(), AccessModifier::PUBLIC );
     printVariables( block.buffer(), AccessModifier::PROTECTED );
@@ -242,7 +246,7 @@ void Class::printHeader( std::ostream& output ) const{
 }
 
 
-void Class::printConstructorSignatures( std::ostream& stream, AccessModifier modifier ) const{
+void Class::printConstructors( std::ostream& stream, AccessModifier modifier, bool signatureOnly ) const{
     bool havePrinted = false;
     std::string accessString;
 
@@ -258,11 +262,15 @@ void Class::printConstructorSignatures( std::ostream& stream, AccessModifier mod
             stream << accessString << std::endl;
             havePrinted = true;
         }
-        constructor.printSignature( this, stream, false );
+        if( signatureOnly ){
+            constructor.printSignature( this, stream, false );
+        }else{
+            constructor.printImplementation( this, stream );
+        }
     }
 }
 
-void Class::printMethodSignatures( std::ostream& stream, AccessModifier modifier ) const {
+void Class::printMethods( std::ostream& stream, AccessModifier modifier, bool signatureOnly ) const {
     bool havePrinted = false;
     std::string accessString;
 
@@ -278,7 +286,12 @@ void Class::printMethodSignatures( std::ostream& stream, AccessModifier modifier
             stream << accessString << std::endl;
             havePrinted = true;
         }
-        method.printSignature( stream, 4, false );
+
+        if( signatureOnly ){
+            method.printSignature( stream, 4, false );
+        }else{
+            method.printImplementation( nullptr, true, stream );
+        }
     }
 }
 
@@ -314,7 +327,7 @@ void Class::printImplementation( std::ostream& implementation ) const{
     }
 
     for( cppgenerate::Method method :  m_methods ){
-        method.printImplementation( this, implementation );
+        method.printImplementation( this, false, implementation );
     }
 }
 
@@ -335,5 +348,6 @@ Class& Class::addParentClass( std::string parentName, cppgenerate::AccessModifie
 
 }
 
-void Class::print( std::ostream& output ) const{
+void Class::printAsHeaderOnly( std::ostream& output ) const{
+    print( output, true );
 }

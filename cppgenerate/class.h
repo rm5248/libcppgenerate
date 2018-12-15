@@ -137,7 +137,7 @@ class Class{
      * the implementation as well, so this is suitable for making a
      * header-only class
      */
-    void print( std::ostream& output ) const;
+    void printAsHeaderOnly( std::ostream& output ) const;
 
     static Class create();
 
@@ -145,9 +145,11 @@ private:
     void printHeader( std::ostream& header ) const;
     void printImplementation( std::ostream& implementation ) const;
 
-    void printConstructorSignatures( std::ostream& stream, AccessModifier access ) const;
-    void printMethodSignatures( std::ostream& stream, AccessModifier access ) const;
+    void printConstructors( std::ostream& stream, AccessModifier access, bool signatureOnly ) const;
+    void printMethods( std::ostream& stream, AccessModifier access, bool signatureOnly ) const;
     void printVariables( std::ostream& stream, AccessModifier access ) const;
+
+    void print( std::ostream& output, bool headerOnly ) const;
 
 private:
     friend class Constructor;

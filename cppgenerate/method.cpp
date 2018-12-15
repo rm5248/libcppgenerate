@@ -11,7 +11,9 @@ using cppgenerate::Method;
 
 Method::Method() : 
     m_returnType( "void" ),
-    m_access( cppgenerate::AccessModifier::PRIVATE ){
+    m_access( cppgenerate::AccessModifier::PRIVATE ),
+    m_isVirtual( false ),
+    m_isPureVirtual( false ){
     m_code.setIndent( 4 );
 }
 
@@ -23,6 +25,8 @@ Method::Method( const Method& other ){
     m_code = other.m_code;
     m_access = other.m_access;
     m_isStatic = other.m_isStatic;
+    m_isVirtual = other.m_isVirtual;
+    m_isPureVirtual = other.m_isPureVirtual;
 }
 
 Method::~Method(){
@@ -37,6 +41,8 @@ Method& Method::operator=( const Method& other ){
         m_code = other.m_code;
         m_access = other.m_access;
         m_isStatic = other.m_isStatic;
+        m_isVirtual = other.m_isVirtual;
+        m_isPureVirtual = other.m_isPureVirtual;
     }
 
     return *this;
@@ -100,20 +106,33 @@ void Method::printSignature( std::ostream& stream, int indent, bool withAccessMo
 
     cppgenerate::insertSpaces( stream, indent );
     if( m_isStatic ) stream << "static ";
+    if( m_isVirtual ) stream << "virtual ";
     printMethodSignature( stream, "" );
 
+    if( m_isPureVirtual ) stream << " = 0";
     stream << ";" << std::endl;
 }
 
-void Method::printImplementation( const cppgenerate::Class* parent, std::ostream& stream ) const{
+void Method::printImplementation( const cppgenerate::Class* parent, bool inHeader, std::ostream& stream ) const{
+    std::string parentName;
+
     if( !isValid() ) return;
 
-    printMethodSignature( stream, parent->getName() );
+    if( !inHeader && parent != nullptr ) parentName = parent->getName();
+    if( inHeader && m_isVirtual ) stream << "virtual ";
 
-    stream << "{" << std::endl;
+    printMethodSignature( stream, parentName );
 
-    stream << m_code << std::endl;
-    stream << "}" << std::endl;
+    if( !m_isPureVirtual ){
+        stream << "{" << std::endl;
+
+        stream << m_code << std::endl;
+        stream << "}" << std::endl;
+    }
+
+    if( inHeader && m_isPureVirtual ){
+        stream << " = 0;" << std::endl;
+    }
 }
 
 Method Method::create(){
@@ -164,4 +183,21 @@ cppgenerate::AccessModifier Method::accessModifier() const{
 
 Method& Method::setStatic( bool isStatic ){
     m_isStatic = isStatic;
+
+    return *this;
+}
+
+Method& Method::setVirtual( bool isVirtual ){
+    m_isVirtual = isVirtual;
+
+    return *this;
+}
+
+Method& Method::setPureVirtual( bool isPureVirtual ){
+    if( isPureVirtual ){
+        m_isVirtual = true;
+    }
+    m_isPureVirtual = isPureVirtual;
+
+    return *this;
 }
