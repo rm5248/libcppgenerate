@@ -104,7 +104,7 @@ IF( UNIX )
         "-I\${includedir}"
     )
     SET(PKG_CONFIG_STATIC_LIBS
-        "-L\${libdir} -l:cppgenerate.a"
+        "-L\${libdir} -l:libcppgenerate.a"
     )
 
     CONFIGURE_FILE(
