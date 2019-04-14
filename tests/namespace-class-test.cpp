@@ -1,5 +1,5 @@
-#include "namespace-class.h"
+#include "NamespaceClass.h"
 
 int main(){
-    Bar::FooClass f;
+    Bar::NamespaceClass f;
 }

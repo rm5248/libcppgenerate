@@ -15,6 +15,6 @@ add_cppgenerate_test_simple( enum_name_bad_chars )
 #
 # Class tests
 #
-add_cppgenerate_test( generate-namespace-class "namespace-class.h;namespace-class.cpp" namespace-class-test )
+add_cppgenerate_test( generate-namespace-class "NamespaceClass.h;NamespaceClass.cpp" namespace-class-test )
 add_cppgenerate_test( generate-class-with-method "ClassWithMethod.h;ClassWithMethod.cpp" class-with-method)
 add_cppgenerate_test( generate-imperative-math "MathOperations.h;MathOperations.cpp" math-class)

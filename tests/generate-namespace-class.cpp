@@ -3,15 +3,15 @@
 #include <fstream>
 
 int main(){
-    cppgenerate::Class c( "FooClass" );
+    cppgenerate::Class c( "NamespaceClass" );
 
     c.setNamespace( "Bar" );
     
     std::ofstream header;
-    header.open( "namespace-class.h" );
+    header.open( "NamespaceClass.h" );
 
     std::ofstream cpp;
-    cpp.open( "namespace-class.cpp" );
+    cpp.open( "NamespaceClass.cpp" );
 
     c.print( header, cpp );
 
