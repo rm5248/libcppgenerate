@@ -12,11 +12,12 @@ set( CMAKE_CXX_STANDARD 11 )
 set( CMAKE_CXX_STANDARD_REQUIRED ON )
 
 #
-# Library version
+# Library ABI version
+# Semantic versioning: https://semver.org/
 #
 set( CPPGENERATE_MAJOR 0 )
 set( CPPGENERATE_MINOR 0 )
-set( CPPGENERATE_MICRO 0 )
+set( CPPGENERATE_MICRO 1 )
 set( CPPGENERATE_VERSION ${CPPGENERATE_MAJOR}.${CPPGENERATE_MINOR}.${CPPGENERATE_MICRO} )
 
 #
@@ -57,7 +58,14 @@ set( CPPGENERATE_HEADERS
 #
 # Library information
 #
-add_library( cppgenerate STATIC ${CPPGENERATE_SOURCES} ${CPPGENERATE_HEADERS} )
+add_library( objlib OBJECT ${CPPGENERATE_SOURCES} ${CPPGENERATE_HEADERS} )
+set_property( TARGET objlib PROPERTY POSITION_INDEPENDENT_CODE 1)
+
+add_library( cppgenerate SHARED $<TARGET_OBJECTS:objlib>)
+set_target_properties( cppgenerate PROPERTIES VERSION ${CPPGENERATE_VERSION} SOVERSION ${CPPGENERATE_MAJOR} )
+
+add_library( cppgenerate_static STATIC $<TARGET_OBJECTS:objlib>)
+set_target_properties( cppgenerate_static PROPERTIES OUTPUT_NAME cppgenerate )
 
 #
 # Install information
@@ -95,12 +103,21 @@ IF( UNIX )
     SET(PKG_CONFIG_CFLAGS
         "-I\${includedir}"
     )
+    SET(PKG_CONFIG_STATIC_LIBS
+        "-L\${libdir} -l:cppgenerate.a"
+    )
 
     CONFIGURE_FILE(
         "${CMAKE_CURRENT_SOURCE_DIR}/cppgenerate.pc.cmake"
         "${CMAKE_CURRENT_BINARY_DIR}/cppgenerate.pc"
     )
-    INSTALL( FILES "${CMAKE_BINARY_DIR}/cppgenerate.pc"
+    CONFIGURE_FILE(
+        "${CMAKE_CURRENT_SOURCE_DIR}/cppgenerate-static.pc.cmake"
+        "${CMAKE_CURRENT_BINARY_DIR}/cppgenerate-static.pc"
+    )
+    INSTALL( FILES 
+             "${CMAKE_BINARY_DIR}/cppgenerate.pc"
+             "${CMAKE_BINARY_DIR}/cppgenerate-static.pc"
              DESTINATION lib/pkgconfig)
 ENDIF( UNIX )
 
