@@ -70,7 +70,7 @@ set_target_properties( cppgenerate_static PROPERTIES OUTPUT_NAME cppgenerate )
 #
 # Install information
 #
-set( install_targets ${install_targets} cppgenerate )
+set( install_targets ${install_targets} cppgenerate cppgenerate_static )
 IF( UNIX )
     include( GNUInstallDirs )
     install( TARGETS ${install_targets}
