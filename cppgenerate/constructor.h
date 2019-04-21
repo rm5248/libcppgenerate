@@ -53,7 +53,7 @@ class Constructor {
     /**
      * Print the constructor implementation to the specified stream
      */
-    void printImplementation( const Class* parent, std::ostream& stream ) const;
+    void printImplementation( const Class* parent, std::ostream& stream, bool inHeader ) const;
 
     AccessModifier accessModifier() const;
 

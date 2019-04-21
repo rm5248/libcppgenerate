@@ -82,7 +82,7 @@ class Method{
     /**
      * Print the method implementation to the specified stream
      */
-    void printImplementation( const Class* parent, bool inHeader, std::ostream& stream ) const;
+    void printImplementation( const Class* parent, std::ostream& stream, bool inHeader ) const;
 
     std::vector<Argument> arguments() const;
 

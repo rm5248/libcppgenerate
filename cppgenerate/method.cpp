@@ -113,7 +113,7 @@ void Method::printSignature( std::ostream& stream, int indent, bool withAccessMo
     stream << ";" << std::endl;
 }
 
-void Method::printImplementation( const cppgenerate::Class* parent, bool inHeader, std::ostream& stream ) const{
+void Method::printImplementation( const cppgenerate::Class* parent, std::ostream& stream, bool inHeader ) const{
     std::string parentName;
 
     if( !isValid() ) return;

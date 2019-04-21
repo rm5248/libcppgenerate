@@ -265,7 +265,7 @@ void Class::printConstructors( std::ostream& stream, AccessModifier modifier, bo
         if( signatureOnly ){
             constructor.printSignature( this, stream, false );
         }else{
-            constructor.printImplementation( this, stream );
+            constructor.printImplementation( this, stream, true );
         }
     }
 }
@@ -290,7 +290,7 @@ void Class::printMethods( std::ostream& stream, AccessModifier modifier, bool si
         if( signatureOnly ){
             method.printSignature( stream, 4, false );
         }else{
-            method.printImplementation( nullptr, true, stream );
+            method.printImplementation( nullptr, stream, true );
         }
     }
 }
@@ -323,11 +323,11 @@ void Class::printImplementation( std::ostream& implementation ) const{
     }
 
     for( cppgenerate::Constructor constructor : m_constructors ){
-        constructor.printImplementation( this, implementation );
+        constructor.printImplementation( this, implementation, false );
     }
 
     for( cppgenerate::Method method :  m_methods ){
-        method.printImplementation( this, false, implementation );
+        method.printImplementation( this, implementation, false );
     }
 }
 

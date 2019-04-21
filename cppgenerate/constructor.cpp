@@ -73,11 +73,11 @@ void Constructor::printSignature( const cppgenerate::Class* parent, std::ostream
     stream << ";" << std::endl;
 }
 
-void Constructor::printImplementation( const cppgenerate::Class* parent, std::ostream& stream ) const{
+void Constructor::printImplementation( const cppgenerate::Class* parent, std::ostream& stream, bool inHeader ) const{
     bool comma = false;
     std::vector<cppgenerate::MemberVariable> initializerVariables;
 
-    printConstructorSignature( stream, parent->getName(), true );
+    printConstructorSignature( stream, parent->getName(), !inHeader );
 
     for( cppgenerate::MemberVariable memberVar : parent->m_memberVariables ){
         if( memberVar.initializer().size() ){
