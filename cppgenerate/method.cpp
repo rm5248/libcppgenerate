@@ -13,7 +13,8 @@ Method::Method() :
     m_returnType( "void" ),
     m_access( cppgenerate::AccessModifier::PRIVATE ),
     m_isVirtual( false ),
-    m_isPureVirtual( false ){
+    m_isPureVirtual( false ),
+    m_isStatic( false ){
     m_code.setIndent( 4 );
 }
 
