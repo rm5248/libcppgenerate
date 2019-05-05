@@ -1,5 +1,5 @@
-libcppgenerate (0.1) UNRELEASED; urgency=low
+libcppgenerate (0.1) unstable; urgency=low
 
   * Initial Release.
 
- -- Robert Middleton <robert.middleton@rm5248.com>  Wed, 05 Sep 2018 22:19:05 -0400
+ -- Robert Middleton <robert.middleton@rm5248.com>  Sun, 05 May 2019 08:44:10 -0400
