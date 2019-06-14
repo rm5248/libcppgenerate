@@ -153,7 +153,7 @@ void Method::printMethodSignature( std::ostream& stream, std::string className )
 
     for( Argument argument : m_arguments ){
         if( addComma ) stream << ", ";
-        stream << argument;
+            argument.printWithDefaultValue( stream );
         addComma = true;
     }
 
