@@ -13,6 +13,15 @@ int main(){
         )
     );
 
+    c.addMethod( cppgenerate::Method::create()
+        .setName( "foomethod" )
+        .addArgument( cppgenerate::Argument::create()
+            .setType( "std::string" )
+            .setName( "fooArg" )
+            .setDefaultValue( "\"foo\"" )
+        )
+    );
+
     c.addSystemInclude( "string" );
 
     std::ofstream header;
