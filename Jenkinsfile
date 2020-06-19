@@ -1,3 +1,6 @@
 @Library('rm5248-jenkins-scripts')
 
-buildDebPkg( ["buster"], ["amd64"] )
+def distros = ["buster"]
+def arches = ["amd64"]
+
+buildDebPkg( distros, arches )
