@@ -3,4 +3,4 @@
 def distros = ["buster"]
 def arches = ["amd64"]
 
-buildDebPkg( distros, arches )
+buildDebPkg( "buster", "amd64" )
