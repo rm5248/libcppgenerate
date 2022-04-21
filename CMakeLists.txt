@@ -118,7 +118,7 @@ IF( UNIX )
     INSTALL( FILES 
              "${CMAKE_BINARY_DIR}/cppgenerate.pc"
              "${CMAKE_BINARY_DIR}/cppgenerate-static.pc"
-             DESTINATION lib/pkgconfig)
+             DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig")
 ENDIF( UNIX )
 
 #
