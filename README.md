@@ -21,7 +21,7 @@ libcppgenerate uses a fluent API in order to allow for easy creation.
 Alternatively, you can have the function calls do only one thing.
 
 ### Fluent example
-```
+```cpp
 /* Create a class called MathOperations */
 cppgenerate::Class c( "MathOperations" );
 
@@ -64,7 +64,7 @@ c.setNamespace( "Math" )
 ```
 
 ### Imperative Example
-```
+```cpp
  /* Create a class called MathOperations */
     cppgenerate::Class c( "MathOperations" );
 
