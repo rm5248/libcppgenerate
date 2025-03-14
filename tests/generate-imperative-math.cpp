@@ -2,7 +2,11 @@
 #include <iostream>
 #include <fstream>
 
-int main(){
+#include "generator_util.h"
+
+int main( int argc, char** argv ){
+    optional_chdir( argc, argv );
+
     /* Create a class called MathOperations */
     cppgenerate::Class c( "MathOperations" );
 

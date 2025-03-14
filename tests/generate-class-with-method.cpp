@@ -2,7 +2,11 @@
 #include <iostream>
 #include <fstream>
 
-int main(){
+#include "generator_util.h"
+
+int main( int argc, char** argv ){
+    optional_chdir( argc, argv );
+
     cppgenerate::Class c( "ClassWithMethod" );
 
     c.addMethod( cppgenerate::Method::create()
