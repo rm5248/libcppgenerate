@@ -44,6 +44,7 @@ Printer& Printer::print(){
         //if( m_generateAsSingleFile ) output = single;
         cls.print( std::cout, std::cout );
     }
+    return *this;
 }
 
 void Printer::printClass( const Class& cls, std::ostream ostream ){
