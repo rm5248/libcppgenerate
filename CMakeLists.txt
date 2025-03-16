@@ -58,6 +58,11 @@ set( CPPGENERATE_HEADERS
 #
 # Library information
 #
+IF( WIN32 )
+# See https://github.com/rm5248/libcppgenerate/issues/6
+add_library( cppgenerate_static STATIC ${CPPGENERATE_SOURCES} ${CPPGENERATE_HEADERS} )
+set_target_properties( cppgenerate_static PROPERTIES OUTPUT_NAME cppgenerate )
+ELSE()
 add_library( objlib OBJECT ${CPPGENERATE_SOURCES} ${CPPGENERATE_HEADERS} )
 set_property( TARGET objlib PROPERTY POSITION_INDEPENDENT_CODE 1)
 
@@ -66,11 +71,16 @@ set_target_properties( cppgenerate PROPERTIES VERSION ${CPPGENERATE_VERSION} SOV
 
 add_library( cppgenerate_static STATIC $<TARGET_OBJECTS:objlib>)
 set_target_properties( cppgenerate_static PROPERTIES OUTPUT_NAME cppgenerate )
+ENDIF( WIN32 )
 
 #
 # Install information
 #
+IF( WIN32 )
+set( install_targets ${install_targets} cppgenerate_static )
+ELSE()
 set( install_targets ${install_targets} cppgenerate cppgenerate_static )
+ENDIF( WIN32 )
 IF( UNIX )
     include( GNUInstallDirs )
     install( TARGETS ${install_targets}
@@ -126,14 +136,14 @@ ENDIF( UNIX )
 #
 if(MSVC)
   # Force to always compile with W4
-  if(CMAKE_C_FLAGS MATCHES "/W[0-4]")
-    string(REGEX REPLACE "/W[0-4]" "/W4" CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS}")
+  if(CMAKE_CXX_FLAGS MATCHES "/W[0-4]")
+    string(REGEX REPLACE "/W[0-4]" "/W4" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
   else()
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /W4")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
   endif()
 elseif(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
   # Update if necessary
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wno-long-long -pedantic")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wno-long-long -pedantic")
 endif()
 
 #
@@ -141,7 +151,6 @@ endif()
 #
 IF( WIN32 )
 	ADD_DEFINITIONS( "-DCPPGENERATE_LIB" )
-	target_compile_definitions( cppgenerate PUBLIC CPPGENERATE_STATIC )
 ENDIF( WIN32 )
 
 #
