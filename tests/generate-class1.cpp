@@ -2,7 +2,11 @@
 #include <iostream>
 #include <fstream>
 
+#include "generator_util.h"
+
 int main( int argc, char** argv ){
+    optional_chdir( argc, argv );
+
     cppgenerate::Class c( "FooClass" );
 
     c.setNamespace( "Bar" )
