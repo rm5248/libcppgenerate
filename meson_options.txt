@@ -1,0 +1,20 @@
+option(
+    'enable-tests',
+    type: 'boolean',
+    value: false,
+    description: 'Enable the unit tests',
+)
+
+option(
+    'enable-examples',
+    type: 'boolean',
+    value: false,
+    description: 'Enable the examples',
+)
+
+option(
+    'cmake-compatible-libraries',
+    type: 'boolean',
+    value: true,
+    description: 'Use .lib suffix for static libraries and do not generate dynamic libraries on Windows. Uses default Meson behavior when false (this enables dynamic library generation on Windows).',
+)
