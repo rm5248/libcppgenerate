@@ -3,7 +3,7 @@
 #
 # Copyright 2018 Robert Middleton robert.middleton@rm5248.com
 #
-cmake_minimum_required( VERSION 3.1 )
+cmake_minimum_required( VERSION 3.5 )
 
 project( libcppgenerate VERSION 0.3)
 
