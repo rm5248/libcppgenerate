@@ -1,3 +1,3 @@
-@Library('rm5248-jenkins-scripts') _
+@Library('rm5248-jenkins-scripts@master') _
 
 buildStandardDebPkg()
